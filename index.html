@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurante Célia Contagem</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    #explosion {
+      font-size: 2rem;
+      color: red;
+      animation: fadeOut 2s forwards;
+    }
+    #message {
+      font-size: 1.5rem;
+      color: #333;
+      display: none;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="explosion">💥</div>
+  <div id="message">em breve aqui, uma inovação</div>
+  <script>
+    setTimeout(() => {
+      document.getElementById('explosion').style.display = 'none';
+      const message = document.getElementById('message');
+      message.style.display = 'block';
+    }, 2000);
+  </script>
+</body>
+</html>
