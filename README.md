@@ -1,12 +1,50 @@
-# Restaurante Célia Contagem
+# Restaurante Célia Contagem (v0.0.0-betatest)
 
-Uma página simples com uma animação de explosão e uma mensagem de "em breve aqui, uma inovação".
+Aplicação em pré-lançamento (versão: v0.0.0-betatest) com animação inicial e preparada como Progressive Web App (PWA) com manifesto, service worker, cache offline e banner de instalação.
 
 ---
 
-## Como visualizar
+## Pré-lançamento & PWA
 
-Abra o arquivo `index.html` em qualquer navegador moderno para visualizar a página.
+O projeto já inclui:
+
+- `manifest.webmanifest` com nome, versão (`version: 0.0.0-betatest`), tema e ícones (adicione os PNGs na pasta `icons/`).
+- `sw.js` (service worker) com estratégia: network-first para navegação e cache-first para assets (APP_VERSION = v0.0.0-betatest).
+- `offline.html` para fallback sem conexão.
+- Banner de instalação personalizado sempre exibido em cada visita (requisito do cliente) enquanto não estiver instalado.
+
+### Testar Localmente
+
+Abra via um servidor (recomendado para o service worker funcionar). Exemplos:
+
+Python 3:
+```bash
+python -m http.server 5173
+```
+Acesse: http://localhost:5173/
+
+Node (npx serve):
+```bash
+npx serve .
+```
+
+### Instalar como App
+
+1. Abra no Chrome / Edge / Android ou Safari iOS.
+2. O banner aparecerá com o botão "Instalar" (Chrome/Android) ou instrução manual (iOS mostra alerta).
+3. Após instalação o banner deixa de aparecer (display-mode standalone detectado).
+
+### Ajustar Ícones
+Coloque os arquivos PNG solicitados em `icons/` conforme `icons/README.txt`.
+
+### Atualizar (Deployment)
+Ao mudar assets críticos altere `APP_VERSION` em `sw.js` para forçar limpeza de cache.
+
+### Próximos Passos (Sugestões)
+- Adicionar ambiente de build (Vite/Next.js) quando iniciar desenvolvimento do app real.
+- Implementar rota /api simulada para testes offline.
+- Adicionar analytics leve (ex: Plausible) após consentimento.
+- Criar componente de notificação para futura integração com Push API.
 
 ---
 
