@@ -11,6 +11,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Marmitas Célia" />
+  <meta name="app-version" content="v0.0.0-betatest" />
   <style>
     :root { color-scheme: light dark; }
     * { box-sizing: border-box; }
@@ -68,6 +69,23 @@
       #install-banner { align-items:center; }
       #install-actions { flex-direction:row; }
     }
+    /* Versão no rodapé */
+    #app-version {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      font-size: .65rem;
+      letter-spacing: .5px;
+      font-weight: 500;
+      padding: .35rem .5rem .45rem;
+      background: rgba(0,0,0,.6);
+      color: #fff;
+      backdrop-filter: blur(6px);
+      z-index: 900; /* abaixo do banner (1000) */
+      font-family: system-ui, Arial, sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -84,6 +102,11 @@
       <button id="btn-install" type="button">Instalar</button>
       <button id="btn-later" type="button">Agora não</button>
     </div>
+  </div>
+
+  <footer id="app-version" aria-label="Versão do aplicativo">versão carregando…</footer>
+  <div id="update-available" style="display:none;position:fixed;right:1rem;bottom:4.5rem;background:#222;color:#fff;padding:.75rem 1rem;border-radius:8px;font-size:.8rem;box-shadow:0 4px 16px -4px rgba(0,0,0,.4);z-index:1200;max-width:260px;line-height:1.3;font-family:system-ui,Arial,sans-serif;">
+    Nova versão disponível. <button id="btn-update" style="margin-top:.5rem;background:#fff;color:#d31616;border:none;padding:.4rem .7rem;font-weight:600;border-radius:4px;cursor:pointer;">Atualizar</button>
   </div>
 
   <script>
@@ -107,6 +130,7 @@
       if(isInStandaloneMode()) return; // já instalado
       const banner = document.getElementById(BANNER_ID);
       if (banner) banner.classList.remove('hidden');
+  positionVersionBadge();
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -141,6 +165,7 @@
     function hideBanner(){
       const banner = document.getElementById(BANNER_ID);
       if (banner) banner.classList.add('hidden');
+  positionVersionBadge();
     }
     document.getElementById('btn-later').addEventListener('click', hideBanner);
 
@@ -150,6 +175,65 @@
         navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW falhou:', err));
       });
     }
+
+    // ====== Versão no rodapé ======
+    const versionMeta = document.querySelector('meta[name="app-version"]');
+    const versionValue = versionMeta ? versionMeta.content : 'dev';
+    const versionEl = document.getElementById('app-version');
+    if (versionEl) versionEl.textContent = `versão ${versionValue}`;
+
+    function positionVersionBadge(){
+      const banner = document.getElementById(BANNER_ID);
+      const badge = document.getElementById('app-version');
+      if(!badge) return;
+      if (banner && !banner.classList.contains('hidden')) {
+        const h = banner.offsetHeight || 0;
+        badge.style.bottom = h + 'px';
+      } else {
+        badge.style.bottom = '0';
+      }
+    }
+    window.addEventListener('resize', positionVersionBadge);
+    window.addEventListener('DOMContentLoaded', () => setTimeout(positionVersionBadge, 1500));
+
+    // ====== Detecção de nova versão ======
+    async function checkRemoteVersion(){
+      try {
+        const res = await fetch('version.json', { cache: 'no-store' });
+        if(!res.ok) return;
+        const data = await res.json();
+        const local = versionValue;
+        if (data.version && data.version !== local) {
+          showUpdatePrompt();
+        }
+      } catch(e){
+        // silencioso
+      }
+    }
+
+    function showUpdatePrompt(){
+      const box = document.getElementById('update-available');
+      if (box) box.style.display = 'block';
+    }
+    document.getElementById('btn-update').addEventListener('click', async () => {
+      // força SW a atualizar e recarrega
+      if (navigator.serviceWorker?.controller) {
+        navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+      }
+      setTimeout(() => window.location.reload(), 400);
+    });
+
+    // Escuta mensagens do SW (ex: NEW_VERSION)
+    navigator.serviceWorker?.addEventListener('message', (event) => {
+      if (event.data?.type === 'NEW_VERSION' && event.data.version !== versionValue) {
+        showUpdatePrompt();
+      }
+    });
+
+    // Checagem periódica a cada 2 minutos
+    setInterval(checkRemoteVersion, 120000);
+    // Primeira checagem após carregar
+    setTimeout(checkRemoteVersion, 4000);
   </script>
 </body>
 </html>

@@ -10,6 +10,8 @@ O projeto já inclui:
 
 - `manifest.webmanifest` com nome, versão (`version: 0.0.0-betatest`), tema e ícones (adicione os PNGs na pasta `icons/`).
 - `sw.js` (service worker) com estratégia: network-first para navegação e cache-first para assets (APP_VERSION = v0.0.0-betatest).
+- `sw.js` avançado com múltiplos caches (core, pages, assets, runtime), atualização agressiva e mensagem de nova versão.
+- `version.json` para detecção remota de build e aviso de atualização.
 - `offline.html` para fallback sem conexão.
 - Banner de instalação personalizado sempre exibido em cada visita (requisito do cliente) enquanto não estiver instalado.
 
@@ -38,7 +40,9 @@ npx serve .
 Coloque os arquivos PNG solicitados em `icons/` conforme `icons/README.txt`.
 
 ### Atualizar (Deployment)
-Ao mudar assets críticos altere `APP_VERSION` em `sw.js` para forçar limpeza de cache.
+1. Atualize `APP_VERSION` em `sw.js` e o campo `version` em `manifest.webmanifest` e `version.json`.
+2. Faça commit e deploy (GitHub Pages). Usuários ativos verão aviso de nova versão.
+3. Ícones ou assets renomeados: manter mesmo nome é seguro porque troca de versão invalida caches antigos.
 
 ### Próximos Passos (Sugestões)
 - Adicionar ambiente de build (Vite/Next.js) quando iniciar desenvolvimento do app real.
