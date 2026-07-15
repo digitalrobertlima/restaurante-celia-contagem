@@ -2,238 +2,403 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#e51d1d" />
-  <title>Restaurante Célia Contagem</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="favicon.ico" />
-  <meta name="description" content="Aqui será onde você pedirá sua marmita todo dia sem dores de cabeça." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Marmitas Célia" />
-  <meta name="app-version" content="v0.0.0-betatest" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1513" />
+  <title>Restaurante Célia - Experiência Única</title>
+  
+  <!-- Fontes Premium para uma tipografia elegante e impactante -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    :root { color-scheme: light dark; }
-    * { box-sizing: border-box; }
-    body {
+    /* Reset & Variáveis */
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: system-ui, Arial, sans-serif;
+      padding: 0;
       -webkit-font-smoothing: antialiased;
-      background: #f4f4f4;
+    }
+    
+    :root {
+      --bg-dark: #120e0d;
+      --bg-card: rgba(28, 21, 19, 0.85);
+      --accent-warm: #e52d27;
+      --accent-warm-grad: linear-gradient(135deg, #f04e30 0%, #b31217 100%);
+      --accent-gold: #e2b13c;
+      --whatsapp-green: #25D366;
+      --whatsapp-grad: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      --text-main: #f5f2f0;
+      --text-muted: #bfaea8;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       min-height: 100dvh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 0 1rem 5rem; /* espaço pro banner */
+      padding: 1.5rem;
+      overflow-x: hidden;
+      position: relative;
     }
-    #explosion { font-size: 2.5rem; color: #e51d1d; animation: fadeOut 2s forwards; }
-    #message { font-size: 1.4rem; color: #333; display: none; text-align: center; }
-    @keyframes fadeOut { to { opacity: 0; } }
-    /* Banner instalação */
-    #install-banner {
-      position: fixed;
-      inset: auto 0 0 0;
-      background: linear-gradient(135deg,#e51d1d,#ff6a00);
-      color: #fff;
-      padding: 1rem .85rem 1.1rem;
-      display: flex;
-      gap: .9rem;
-      align-items: flex-start;
-      box-shadow: 0 -4px 18px -4px rgba(0,0,0,.35);
-      font-size: .95rem;
-      line-height: 1.3;
-      z-index: 1000;
-      animation: slideUp .4s ease;
+
+    /* Efeitos de Luz de Fundo (Glows sofisticados) */
+    .glow-bg {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 1;
+      opacity: 0.45;
+      pointer-events: none;
     }
-    @keyframes slideUp { from { transform: translateY(100%); opacity: 0;} }
-    #install-banner.hidden { display: none; }
-    #install-banner .text { flex: 1; font-weight: 500; }
-    #install-banner strong { display: block; font-size: .8rem; letter-spacing: .5px; opacity: .85; font-weight: 600; margin-bottom: .25rem; text-transform: uppercase; }
-    #install-banner button {
-      appearance: none;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      padding: .65rem 1rem;
-      font-size: .85rem;
-      font-family: inherit;
-      transition: background .25s, transform .15s;
+    .glow-orange {
+      background: #e52d27;
+      top: -10%;
+      left: -10%;
     }
-    #btn-install { background:#fff; color:#d31616; }
-    #btn-install:hover { background:#ffe5e5; }
-    #btn-later { background:rgba(255,255,255,.18); color:#fff; backdrop-filter: blur(4px); }
-    #btn-later:hover { background:rgba(255,255,255,.28); }
-    #install-actions { display:flex; flex-direction:column; gap:.5rem; }
-    @media (min-width:560px){
-      #install-banner { align-items:center; }
-      #install-actions { flex-direction:row; }
+    .glow-gold {
+      background: #e2b13c;
+      bottom: -10%;
+      right: -10%;
     }
-    /* Versão no rodapé */
-    #app-version {
-      position: fixed;
-      left: 0;
-      bottom: 0;
+
+    /* Container Principal (Glassmorphism de alta qualidade) */
+    .main-container {
       width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 32px;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
       text-align: center;
-      font-size: .65rem;
-      letter-spacing: .5px;
-      font-weight: 500;
-      padding: .35rem .5rem .45rem;
-      background: rgba(0,0,0,.6);
+      z-index: 10;
+      position: relative;
+      animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Identidade Visual / Logo sutil */
+    .brand-header {
+      margin-bottom: 1.8rem;
+    }
+    
+    .brand-badge {
+      display: inline-block;
+      background: rgba(226, 177, 60, 0.12);
+      border: 1px solid rgba(226, 177, 60, 0.3);
+      color: var(--accent-gold);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(180deg, #ffffff 0%, #e2e0dd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.4rem;
+    }
+
+    .brand-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Chamada Sensorial */
+    .sensory-pitch {
+      margin-bottom: 2rem;
+    }
+
+    .sensory-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      font-style: italic;
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .sensory-desc {
+      font-size: 0.95rem;
+      color: #e2e0dd;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* Interatividade Sem Fricção */
+    .configurator {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 2.2rem;
+      text-align: left;
+    }
+
+    .config-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .pill-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .pill-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .pill {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 10px 6px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      user-select: none;
+    }
+
+    .pill.active {
+      background: var(--accent-warm-grad);
+      border-color: transparent;
       color: #fff;
-      backdrop-filter: blur(6px);
-      z-index: 900; /* abaixo do banner (1000) */
-      font-family: system-ui, Arial, sans-serif;
+      box-shadow: 0 8px 20px rgba(229, 45, 39, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Botão WhatsApp Magnífico */
+    .cta-button-container {
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 100px;
+      background: var(--whatsapp-green);
+      opacity: 0.4;
+      z-index: 1;
+      animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.96);
+        opacity: 0.5;
+      }
+      70% {
+        transform: scale(1.08);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(0.96);
+        opacity: 0;
+      }
+    }
+
+    .whatsapp-btn {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 1.15rem 1.5rem;
+      background: var(--whatsapp-grad);
+      border: none;
+      border-radius: 100px;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 12px 24px rgba(37, 211, 102, 0.3);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-decoration: none;
+    }
+
+    .whatsapp-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 6px 12px rgba(37, 211, 102, 0.2);
+    }
+
+    .whatsapp-icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    /* Subtexto Auxiliar */
+    .footer-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .footer-note strong {
+      color: var(--accent-gold);
     }
   </style>
 </head>
 <body>
-  <div id="explosion" aria-hidden="true">💥</div>
-  <div id="message" role="status">em breve aqui, uma inovação</div>
 
-  <!-- Banner de instalação PWA -->
-  <div id="install-banner" class="hidden" role="dialog" aria-live="polite" aria-label="Instalar Aplicativo">
-    <div class="text">
-      <strong>Pré-Lançamento</strong>
-      aqui será onde você pedirá sua marmita todo dia sem dores de cabeça, mas ainda nosso app ta sendo criado, aproveite e já deiexe-o instalado para receber todas atualizações.
+  <!-- Elementos de iluminação de fundo -->
+  <div class="glow-bg glow-orange"></div>
+  <div class="glow-bg glow-gold"></div>
+
+  <!-- Container de Experiência Principal -->
+  <main class="main-container">
+    
+    <!-- Cabeçalho da Marca -->
+    <header class="brand-header">
+      <span class="brand-badge">Sabor & Tradição</span>
+      <h1 class="brand-title">Célia Contagem</h1>
+      <p class="brand-subtitle">Marmitaria & Restaurante</p>
+    </header>
+
+    <!-- Convite Sensorial Irresistível -->
+    <section class="sensory-pitch">
+      <h2 class="sensory-headline">A hora mais gostosa do seu dia...</h2>
+      <p class="sensory-desc">
+        Aqueça seu dia com o tempero autêntico e caseiro de verdade. Sem formulários, sem downloads. Basta um toque para receber o sabor que você merece.
+      </p>
+    </section>
+
+    <!-- Painel de Seleção Inteligente de Pedidos (Zero Fricção) -->
+    <section class="configurator">
+      <span class="config-label">1. Escolha o Tamanho da Fome:</span>
+      <div class="pill-group" id="fome-group">
+        <div class="pill active" data-value="Média">🍱 Média (R$ 20)</div>
+        <div class="pill" data-value="Grande">🍽️ Grande (R$ 25)</div>
+      </div>
+
+      <span class="config-label" style="margin-top: 1.2rem;">2. Deseja Bebida?</span>
+      <div class="pill-group" id="bebida-group">
+        <div class="pill active" data-value="Sem bebida">❌ Sem bebida</div>
+        <div class="pill" data-value="Guaraná trincando">🥤 Guaraná</div>
+        <div class="pill" data-value="Coca-Cola gelada">🥤 Coca-Cola</div>
+      </div>
+    </section>
+
+    <!-- O Botão de Entrada Gloriosa no WhatsApp -->
+    <div class="cta-button-container">
+      <div class="pulse-ring"></div>
+      <a href="#" id="whatsapp-link" target="_blank" class="whatsapp-btn">
+        <!-- SVG Ícone Oficial do WhatsApp -->
+        <svg class="whatsapp-icon" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.665.988 3.3 1.478 5.35 1.479 5.549 0 10.063-4.512 10.066-10.066.002-2.692-1.043-5.223-2.946-7.129C17.214 1.53 14.686.48 11.997.48c-5.556 0-10.07 4.513-10.073 10.069-.001 2.144.57 3.737 1.638 5.485L2.553 21.46l5.74-1.503c.123-.033.246-.066.354-.083zM18.17 14.85c-.337-.168-1.996-.983-2.305-1.097-.308-.113-.534-.168-.758.169-.224.336-.869 1.097-1.066 1.321-.197.225-.394.252-.73.084-1.125-.563-1.942-.974-2.701-2.275-.58-.992-.81-1.528-.923-1.753-.113-.224-.012-.346.101-.458.101-.1.224-.252.336-.378.113-.127.15-.216.224-.363.076-.147.038-.276-.019-.387-.056-.113-.534-1.285-.73-1.759-.19-.462-.4-.399-.549-.407-.142-.007-.305-.009-.468-.009-.164 0-.431.061-.656.305-.224.244-.858.839-.858 2.045s.878 2.368.999 2.53c.122.162 1.728 2.637 4.187 3.692.585.251 1.042.4 1.398.514.588.187 1.124.16 1.547.097.472-.071 1.996-.816 2.277-1.606.281-.79.281-1.467.197-1.606-.084-.14-.308-.224-.646-.393z"/>
+        </svg>
+        QUERO MEU ALMOÇO AGORA
+      </a>
     </div>
-    <div id="install-actions">
-      <button id="btn-install" type="button">Instalar</button>
-      <button id="btn-later" type="button">Agora não</button>
-    </div>
-  </div>
 
-  <footer id="app-version" aria-label="Versão do aplicativo">versão carregando…</footer>
-  <div id="update-available" style="display:none;position:fixed;right:1rem;bottom:4.5rem;background:#222;color:#fff;padding:.75rem 1rem;border-radius:8px;font-size:.8rem;box-shadow:0 4px 16px -4px rgba(0,0,0,.4);z-index:1200;max-width:260px;line-height:1.3;font-family:system-ui,Arial,sans-serif;">
-    Nova versão disponível. <button id="btn-update" style="margin-top:.5rem;background:#fff;color:#d31616;border:none;padding:.4rem .7rem;font-weight:600;border-radius:4px;cursor:pointer;">Atualizar</button>
-  </div>
+    <!-- Micro-Rodapé Informativo -->
+    <footer class="footer-note">
+      Toque no botão para enviar o pedido diretamente.<br>
+      Levamos a você em <strong>Contagem</strong> com rapidez total!
+    </footer>
 
+  </main>
+
+  <!-- Lógica Javascript Dinâmica (Mágica da Experiência) -->
   <script>
-    // Animação inicial
-    setTimeout(() => {
-      const explosion = document.getElementById('explosion');
-      if (explosion) explosion.style.display = 'none';
-      const message = document.getElementById('message');
-      if (message) message.style.display = 'block';
-    }, 2000);
+    // Configurações do WhatsApp
+    // IMPORTANTE: Altere para o número real do seu WhatsApp comercial abaixo!
+    const DDD_TELEFONE = "31998522642"; // DDD + Número (apenas dígitos)
+    
+    // Elementos da Interface
+    const pillsFome = document.querySelectorAll('#fome-group .pill');
+    const pillsBebida = document.querySelectorAll('#bebida-group .pill');
+    const whatsappLink = document.getElementById('whatsapp-link');
 
-    // ================= PWA Setup =================
-    const BANNER_ID = 'install-banner';
-    let deferredPrompt = null;
+    // Estado da seleção do usuário
+    let selecao = {
+      tamanho: "Média",
+      bebida: "Sem bebida"
+    };
 
-    function isInStandaloneMode(){
-      return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-    }
-
-    function showBanner(){
-      if(isInStandaloneMode()) return; // já instalado
-      const banner = document.getElementById(BANNER_ID);
-      if (banner) banner.classList.remove('hidden');
-  positionVersionBadge();
-    }
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      showBanner();
-    });
-
-    // Força exibir banner mesmo que o evento ainda não tenha disparado (Safari iOS não suporta) 
-    window.addEventListener('DOMContentLoaded', () => {
-      // Exibe sempre a cada visita (requisito); ajuste se quiser limitar.
-      setTimeout(() => showBanner(), 1200);
-    });
-
-    document.getElementById('btn-install').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const choice = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        if (choice.outcome === 'accepted') {
-          hideBanner();
-        } else {
-          // usuário cancelou, mantém política de mostrar novamente em próxima visita
-          hideBanner();
-        }
-      } else {
-        // fallback para instruções manuais (iOS por ex.)
-        alert('Para instalar: use "Adicionar à Tela Inicial" no menu do seu navegador.');
-      }
-    });
-
-    function hideBanner(){
-      const banner = document.getElementById(BANNER_ID);
-      if (banner) banner.classList.add('hidden');
-  positionVersionBadge();
-    }
-    document.getElementById('btn-later').addEventListener('click', hideBanner);
-
-    // Registro do Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW falhou:', err));
+    // Função de clique nas pílulas de tamanho
+    pillsFome.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pillsFome.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        selecao.tamanho = pill.getAttribute('data-value');
+        atualizarLinkWhatsApp();
       });
-    }
-
-    // ====== Versão no rodapé ======
-    const versionMeta = document.querySelector('meta[name="app-version"]');
-    const versionValue = versionMeta ? versionMeta.content : 'dev';
-    const versionEl = document.getElementById('app-version');
-    if (versionEl) versionEl.textContent = `versão ${versionValue}`;
-
-    function positionVersionBadge(){
-      const banner = document.getElementById(BANNER_ID);
-      const badge = document.getElementById('app-version');
-      if(!badge) return;
-      if (banner && !banner.classList.contains('hidden')) {
-        const h = banner.offsetHeight || 0;
-        badge.style.bottom = h + 'px';
-      } else {
-        badge.style.bottom = '0';
-      }
-    }
-    window.addEventListener('resize', positionVersionBadge);
-    window.addEventListener('DOMContentLoaded', () => setTimeout(positionVersionBadge, 1500));
-
-    // ====== Detecção de nova versão ======
-    async function checkRemoteVersion(){
-      try {
-        const res = await fetch('version.json', { cache: 'no-store' });
-        if(!res.ok) return;
-        const data = await res.json();
-        const local = versionValue;
-        if (data.version && data.version !== local) {
-          showUpdatePrompt();
-        }
-      } catch(e){
-        // silencioso
-      }
-    }
-
-    function showUpdatePrompt(){
-      const box = document.getElementById('update-available');
-      if (box) box.style.display = 'block';
-    }
-    document.getElementById('btn-update').addEventListener('click', async () => {
-      // força SW a atualizar e recarrega
-      if (navigator.serviceWorker?.controller) {
-        navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
-      }
-      setTimeout(() => window.location.reload(), 400);
     });
 
-    // Escuta mensagens do SW (ex: NEW_VERSION)
-    navigator.serviceWorker?.addEventListener('message', (event) => {
-      if (event.data?.type === 'NEW_VERSION' && event.data.version !== versionValue) {
-        showUpdatePrompt();
-      }
+    // Função de clique nas pílulas de bebida
+    pillsBebida.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pillsBebida.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        selecao.bebida = pill.getAttribute('data-value');
+        atualizarLinkWhatsApp();
+      });
     });
 
-    // Checagem periódica a cada 2 minutos
-    setInterval(checkRemoteVersion, 120000);
-    // Primeira checagem após carregar
-    setTimeout(checkRemoteVersion, 4000);
+    // Gera o link de forma inteligente e dinâmica com base na seleção
+    function atualizarLinkWhatsApp() {
+      let textoBebida = selecao.bebida === "Sem bebida" ? "sem bebida" : `acompanhada de uma ${selecao.bebida}`;
+      
+      const mensagem = `Olá, Dona Célia! Acabei de escanear o QR Code de vocês 💥\\n\\n` +
+                       `Gostaria de garantir a minha marmita de hoje:\\n` +
+                       `👉 Tamanho: *${selecao.tamanho}*\\n` +
+                       `🥤 Bebida: *${textoBebida}*\\n\\n` +
+                       `Pode me passar o cardápio de hoje e o valor com entrega para eu finalizar o pedido?`;
+
+      // Codifica a mensagem de forma limpa para URL
+      const mensagemCodificada = encodeURIComponent(mensagem);
+      
+      // Atualiza o atributo href do botão
+      whatsappLink.href = `https://wa.me/${DDD_TELEFONE}?text=${mensagemCodificada}`;
+    }
+
+    // Inicializa o link logo no carregamento
+    atualizarLinkWhatsApp();
   </script>
 </body>
 </html>
