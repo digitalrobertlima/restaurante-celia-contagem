@@ -235,6 +235,24 @@
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Brilho interno do botão */
+    .experience-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.08),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    /* Estado de Ativação / Clique */
     .experience-btn:active {
       transform: scale(0.96);
       border-color: var(--gold);
@@ -255,7 +273,7 @@
       font-weight: 600;
     }
 
-    /* Efeito de Transição Explosivo de Sabor (Tela Flash) */
+    /* Efeito de Transição Explosivo (Tela Flash ao clicar) */
     .transition-flash {
       position: fixed;
       inset: 0;
@@ -273,9 +291,10 @@
 </head>
 <body>
 
+  <!-- Gradientes de Luz de Fundo -->
   <div class="bg-overlay"></div>
 
-  <!-- SVG Invisível para Gradiente Metálico -->
+  <!-- Elemento SVG para o gradiente metálico -->
   <svg style="width:0; height:0; position:absolute;" aria-hidden="true">
     <linearGradient id="gold-grad-svg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f3d098" />
@@ -284,8 +303,10 @@
     </linearGradient>
   </svg>
 
+  <!-- Flash de transição para o clique -->
   <div class="transition-flash" id="flash-screen"></div>
 
+  <!-- Bloco de Experiência Central -->
   <main class="experience-wrap">
     
     <div class="plate-concept">
@@ -296,6 +317,7 @@
       </svg>
     </div>
 
+    <!-- Títulos e Apelo Sensorial -->
     <span class="welcome-badge">Seja Bem-Vindo</span>
     <h1 class="restaurant-title">Restaurante da Célia</h1>
     
@@ -303,6 +325,7 @@
       O aroma do tempero caseiro já está pronto. <strong>Toque abaixo</strong> para abrir o cardápio e fazer o seu pedido diretamente no WhatsApp.
     </p>
 
+    <!-- Botão de Ação Único -->
     <div class="button-reveal-box">
       <a href="#" id="cta-button" class="experience-btn">
         <span>ENTRAR & PEDIR</span>
@@ -321,8 +344,8 @@
   </footer>
 
   <script>
-    // IMPORTANTE: Mude para o seu número real aqui (DDD + Número, apenas dígitos)
-    const DDD_TELEFONE = "31982313684"; 
+    // WhatsApp Real Configurado com Sucesso
+    const DDD_TELEFONE = "31992034948"; 
 
     const MENSAGEM_ACOLHIDA = 
       "Olá, Dona Célia! 💥\n\n" +
@@ -331,7 +354,7 @@
     const encodedMessage = encodeURIComponent(MENSAGEM_ACOLHIDA);
     const whatsappUrl = `https://wa.me/${DDD_TELEFONE}?text=${encodedMessage}`;
 
-    // Partículas de brasas dinâmicas flutuando na tela
+    // Partículas de brasa flutuando
     const body = document.body;
     for (let i = 0; i < 15; i++) {
       const ember = document.createElement('div');
@@ -344,13 +367,12 @@
       body.appendChild(ember);
     }
 
+    // Transição Cinemática de Clique
     const ctaButton = document.getElementById('cta-button');
     const flashScreen = document.getElementById('flash-screen');
 
     ctaButton.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      // Efeito estético de flash cinematográfico
       flashScreen.classList.add('active');
       
       setTimeout(() => {
