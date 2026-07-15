@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0f0b0a" />
-  <title>Marmitas Célia - Sabor Único</title>
+  <title>Restaurante da Célia - Sabor Único</title>
   
   <!-- Google Fonts de Altíssimo Padrão -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -174,7 +174,7 @@
       font-family: 'Cinzel', serif;
       font-size: 2.1rem;
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -210,10 +210,13 @@
       opacity: 0.3;
       filter: blur(8px);
       transition: all 0.5s ease;
+      z-index: 1;
+      pointer-events: none; /* Isso garante que o brilho não bloqueie o clique */
     }
 
     .experience-btn {
       position: relative;
+      z-index: 2; /* Mantém o botão na frente para ser clicável */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -256,11 +259,6 @@
     .experience-btn:active {
       transform: scale(0.96);
       border-color: var(--gold);
-    }
-
-    .experience-btn:active + .button-glow-border {
-      opacity: 0.8;
-      filter: blur(12px);
     }
 
     /* Micro-Footer */
@@ -367,18 +365,23 @@
       body.appendChild(ember);
     }
 
-    // Transição Cinemática de Clique
+    // Transição Cinemática e Redirecionamento (com fallback de segurança)
     const ctaButton = document.getElementById('cta-button');
     const flashScreen = document.getElementById('flash-screen');
 
+    // Insere o link no botão logo de cara como dupla garantia
+    ctaButton.href = whatsappUrl;
+
     ctaButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      flashScreen.classList.add('active');
+      e.preventDefault(); // Pausa o redirecionamento padrão
+      flashScreen.classList.add('active'); // Acende o flash cinematográfico
       
+      // Espera 250 milissegundos do flash antes de abrir o WhatsApp
       setTimeout(() => {
         window.location.href = whatsappUrl;
       }, 250);
 
+      // Desliga o flash caso a pessoa volte para a aba
       setTimeout(() => {
         flashScreen.classList.remove('active');
       }, 1000);
